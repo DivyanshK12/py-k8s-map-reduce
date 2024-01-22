@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: {{ .Release.Name }}-config
+data:
+  map_pod_count: "{{ .Values.mapPodCount }}"
+  reduce_pod_count: "{{ .Values.reducePodCount }}"

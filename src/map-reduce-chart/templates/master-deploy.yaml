@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: {{ .Release.Name }}-master
+  name: {{ .Release.Name }}-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-master
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: {{ .Release.Name }}-master
+    spec:
+      containers:
+      - image: map-reduce-master:1.0.0
+        name: map-reduce-master
+        resources: {}
+        env:
+        # Define the environment variable
+        - name: MAP_POD_COUNT
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-config
+              key: map_pod_count
+        - name: REDUCE_POD_COUNT
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-config
+              key: reduce_pod_count
+status: {}
