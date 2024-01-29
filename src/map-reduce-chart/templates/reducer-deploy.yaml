@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: {{ .Release.Name }}-reducer
+  name: {{ .Release.Name }}-reducer
+spec:
+  replicas: {{ .Values.reducePodCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-reducer
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: {{ .Release.Name }}-reducer
+    spec:
+      containers:
+      - image: map-reduce-reducer:1.0.0
+        name: map-reduce-reducer
+        resources: {}
+status: {}

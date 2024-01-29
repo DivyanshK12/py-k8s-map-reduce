@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: {{ .Release.Name }}-mapper
+  name: {{ .Release.Name }}-mapper
+spec:
+  replicas: {{ .Values.mapPodCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-mapper
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: {{ .Release.Name }}-mapper
+    spec:
+      containers:
+      - image: map-reduce-mapper:1.0.0
+        name: map-reduce-mapper
+        resources: {}
+status: {}
