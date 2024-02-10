@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: zookeeper
+  name: zookeeper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+      - image: zookeeper:3.9.1
+        name: zookeeper
+        resources: {}
+        env:
+          - name: ALLOW_ANONYMOUS_LOGIN
+            value: "yes"
+status: {}

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kafka-pod
+  name: kafka-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-pod
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: kafka-pod
+    spec:
+      volumes:
+      - name: kafka-pv-storage
+        persistentVolumeClaim:
+          claimName: kafka-pv-claim
+      containers:
+      - name: kafka-pod-1
+        image: alpine:latest
+        command: ["/bin/sh"]
+        args: ["-c", "touch dk/check.txt; sleep 60;"]
+        volumeMounts:
+        - mountPath: "/dk"
+          name: kafka-pv-storage
+      - name: kafka-pod-2
+        image: alpine:latest
+        command: ["/bin/sh"]
+        args: ["-c", "ls -al /dk; sleep 60;"]
+        volumeMounts:
+        - mountPath: "/dk"
+          name: kafka-pv-storage
+status: {}

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kafka-test
+  name: kafka-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-test
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: kafka-test
+    spec:
+      containers:
+      - image: map-reduce-master:1.2.0
+        name: map-reduce-master
+        resources: {}
+status: {}
