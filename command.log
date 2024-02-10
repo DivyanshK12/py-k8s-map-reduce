@@ -1,0 +1,8 @@
+docker build . -f master.Dockerfile -t map-reduce-master:1.0.0
+kubectl run master-pod --image=map-reduce-master:1.0.0
+kubectl create configmap master-config --dry-run=client -o yaml > config.yaml
+kubectl create deploy master-deploy --replicas=1 --image=map-reduce-master:1.0.0 --dry-run=client -o yaml > master-deploy.yaml
+
+helm create master-config-chart
+helm install first-run ./map-reduce-chart
+helm uninstall first-run
