@@ -1,13 +1,22 @@
 import os
 from kafka import KafkaProducer, KafkaConsumer
+from cassandra.cluster import Cluster
+from cassandra.auth import PlainTextAuthProvider
 
 def main():
     num_mappers, num_reducers = os.getenv("MAP_POD_COUNT", 3), os.getenv("REDUCE_POD_COUNT", 2)
     print(f"Master Running with config mappers : {num_mappers} reducers : {num_reducers}")
-    
+
+def test_cassandra():
+    auth_provider = PlainTextAuthProvider(username='cassandra', password='cassandra')
+    cluster = Cluster(['cassandra'], auth_provider=auth_provider)
+    session = cluster.connect()
+    print(session.get_pool_state())
+
+def test_kafka() :
     producer = KafkaProducer(bootstrap_servers=['kafka-core:9092']) # TODO : Read this from env
-    # producer.send('my-topic', key=b'foo2', value=b'bar2')
-    # producer.flush()
+    producer.send('my-topic', key=b'foo2', value=b'bar2')
+    producer.flush()
 
     print("Messages sent")
 
@@ -19,4 +28,4 @@ def main():
                                           message.value.decode('utf-8')))
 
 if __name__ == "__main__":
-    main()
+    test_cassandra()

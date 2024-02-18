@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cassandra
+  name: cassandra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cassandra
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: cassandra
+    spec:
+      containers:
+      - image: bitnami/cassandra:4.1.4
+        name: cassandra
+        resources: {}
+status: {}
